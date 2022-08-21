@@ -1,0 +1,12 @@
+---
+ansible-navigator:
+  ansible:
+    config:
+      path: ./ansible.cfg
+  execution-environment:
+    image: ee-supported-rhel8:2.0
+    pull:
+      policy: never
+  mode: stdout
+  playbook-artifact:
+    enable: false

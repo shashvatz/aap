@@ -1,0 +1,43 @@
+---
+- name: create users
+  hosts: all
+  become: true
+  gather_facts: no
+
+#  vars_files:
+#    - users.yml
+  
+  tasks:
+    
+    - name: load and show users file
+      tags:
+        - show
+      block: 
+        - name: load users
+          set_fact:
+            users: "{{ lookup('file', 'users.yml') | from_yaml }}"
+        - name: show vars
+          debug:
+            var: users  
+ 
+    - name: create groups
+      ansible.builtin.group:
+        name: "{{ item | lower }}"
+        state: present
+      loop: "{{ users | map(attribute='groups') | flatten | list }}"
+      tags: 
+        - groups
+
+    - name: create users
+      ansible.builtin.user:
+        name: "{{ item[0].username }}"
+        uid: "{{ item[0].uid }}"
+        comment: "{{ item[0].first_name | capitalize }} {{ item[0].last_name | capitalize }}"
+#        comment: "{{ item[0].first_name | product(item[0].last_name) | map('join',' ') | capitalize }}"
+        password: "{{ item[0].password | password_hash('sha512') }}"
+        groups: "{{ item[1] }}"
+        append: true
+        state: present
+      loop: "{{ users | subelements('groups') | list | lower }}"
+
+
