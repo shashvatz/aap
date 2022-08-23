@@ -1,0 +1,25 @@
+---
+- name: create users
+  hosts: all
+#  gather_facts: no
+ 
+  tasks:
+    
+    - name: read users
+      set_fact:
+        user_list: "{{ lookup('file','users.yml') | from_yaml }}"
+
+    - name: create users
+      vars:
+        password: "{{ lookup('password', 'credentials/' + item[0].name + ' length=9') }}"
+
+      ansible.builtin.user:
+        name: "{{ item[0].name }}"
+        password: "{{ password | password_hash('sha512') }}"
+        groups: "{{ item[1] }}"
+        append: yes
+        update_password: on_create
+        state: present
+      loop: "{{ user_list | subelements('groups', 'skip_missing=true') }}"
+
+

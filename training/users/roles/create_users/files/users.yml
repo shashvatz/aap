@@ -1,0 +1,31 @@
+---
+- username: sjobi
+  uid: 3098
+  first_name: Jobi
+  last_name: Samuel
+  groups:
+    - developers
+    - admins
+  password: iamjobi
+- username: mjilesh
+  uid: 4356
+  first_name: Jilesh
+  last_name: Mattakot
+  groups:
+    - managers
+    - admins
+  password: iamjilesh
+- username: asunil
+  uid: 5435
+  first_name: Sunil
+  last_name: Ambar
+  groups:
+    - Admins
+  password: iamsunil
+- username: yogi
+  uid: 3345
+  first_name: Yograj
+  last_name: Sahani
+  groups:
+    - developers
+  password: iamyogi

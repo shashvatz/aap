@@ -1,0 +1,4 @@
+---
+collections:
+  - name: /build/training-users-1.2.0.tar.gz
+    type: file
